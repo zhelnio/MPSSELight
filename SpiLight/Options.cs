@@ -94,7 +94,7 @@ namespace SpiLight
 
             //TODO нормальный конвертер для обозначения pin'a
             parser.Setup<int>('c', "chipSelect").Callback(x => ChipSelectBit = (FtdiPin)(1 << x)).SetDefault(3)
-                .WithDescription("Spi mode: 0 or 2");
+                .WithDescription("SPI CS pin number");
 
             parser.Parse(args);
         }

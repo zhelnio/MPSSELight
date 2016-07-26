@@ -13,7 +13,7 @@ Library use example also can be found in [SpiLight](https://github.com/zhelnio/M
     Simple FTDI MPSSE cmd client (tested on FT2232D)
     Stanislav Zhelnio, 2016
     
-            c:chipSelect            Spi mode: 0 or 2
+            c:chipSelect            SPI CS pin number
             d:device                FT device serial number
             D:devisor               MPSSE frequency devisor
             i:input                 Input file to read (binary)
