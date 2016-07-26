@@ -1,0 +1,144 @@
+﻿/* The MIT License (MIT)
+
+Copyright(c) 2016 Stanislav Zhelnio
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FTD2XX_NET;
+using System.Threading;
+using System.Diagnostics;
+
+namespace MPSSELight
+{
+
+    public class FtdiDevice
+    {
+        protected FTDI ftdi;
+
+        private void open(string serialNumber)
+        {
+            FTDI.FT_STATUS ftStatus = ftdi.OpenBySerialNumber(serialNumber);
+            if (ftStatus == FTDI.FT_STATUS.FT_OK)
+                return;
+
+            String errMsg = "Failed to open device (error " + ftStatus.ToString() + ")";
+            throw new FtdiException(errMsg);
+        }
+
+        public byte[] read()
+        {
+            uint bytesToRead = inputLen;
+
+            byte[] inputBuffer = new byte[bytesToRead];
+            FTDI.FT_STATUS ftStatus = ftdi.Read(inputBuffer, bytesToRead, ref bytesToRead);
+
+            if (ftStatus == FTDI.FT_STATUS.FT_OK)
+            {
+                DataReadDebugInfo(inputBuffer);
+                return inputBuffer;
+            }
+
+            String errMsg = "Failed to Read (error " + ftStatus.ToString() + ")";
+            throw new FtdiException(errMsg);
+        }
+
+        public void write(byte[] data)
+        {
+            DataWriteDebugInfo(data);
+
+            byte[] outputBuffer = (byte[])data.Clone();
+            while (outputBuffer.Length > 0)
+            {
+                uint bytesWritten = 0;
+                FTDI.FT_STATUS ftStatus = ftdi.Write(outputBuffer, outputBuffer.Length, ref bytesWritten);
+                if (ftStatus != FTDI.FT_STATUS.FT_OK)
+                {
+                    String errMsg = "fail to Write (error " + ftStatus.ToString() + ")";
+                    throw new FtdiException(errMsg);
+                }
+
+                long bytesToWrite = outputBuffer.Length - bytesWritten;
+                byte[] remainingData = new byte[bytesToWrite];
+                Array.Copy(outputBuffer, bytesWritten, remainingData, 0, bytesToWrite);
+                outputBuffer = remainingData;
+            }
+        }
+
+        public uint inputLen
+        {
+            get
+            {
+                uint bytesToRead = 0;
+                FTDI.FT_STATUS ftStatus = ftdi.GetRxBytesAvailable(ref bytesToRead);
+
+                if (ftStatus == FTDI.FT_STATUS.FT_OK)
+                    return bytesToRead;
+
+                String errMsg = "Failed to getRxBytesAvailable in inputLen (error " + ftStatus.ToString() + ")";
+                throw new FtdiException(errMsg);
+            }
+        }
+
+        public void clearInput()
+        {
+            byte[] inputBuffer;
+            do
+                inputBuffer = read();
+            while (inputBuffer.Length > 0);
+        }
+
+        public FtdiDevice(string serialNumber)
+        {
+            ftdi = new FTDI();
+            open(serialNumber);
+        }
+
+        public delegate void DataTransferEvent(byte[] data);
+
+        public DataTransferEvent DataReadEvent;
+        public DataTransferEvent DataWriteEvent;
+
+        protected void DataReadDebugInfo(byte[] data)
+        {
+            if (DataReadEvent != null)
+                DataReadEvent(data);
+
+            Debug.WriteLine(String.Format("{0:HH:mm:ss.FFFF} ftdiRead: {1}",
+                                            DateTime.Now,
+                                            BitConverter.ToString(data)));
+        }
+
+        protected void DataWriteDebugInfo(byte[] data)
+        {
+            if (DataWriteEvent != null)
+                DataWriteEvent(data);
+
+            Debug.WriteLine(String.Format("{0:HH:mm:ss.FFFF} ftdiWrite: {1}",
+                                            DateTime.Now,
+                                            BitConverter.ToString(data)));
+        }
+
+    }
+}
