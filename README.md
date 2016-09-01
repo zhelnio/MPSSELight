@@ -16,6 +16,8 @@ using (MpsseDevice mpsse = new FT2232D("A"))
 ```
 ![Alt text](/readme/da.png?raw=true "Result")
 
+# SpiLight
+
 Library use example also can be found in [SpiLight](https://github.com/zhelnio/MPSSELight/blob/master/SpiLight/Program.cs) project - small command line application that transfer data over SPI:
 
 1. Get help
