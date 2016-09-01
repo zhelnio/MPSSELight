@@ -41,10 +41,22 @@ namespace MPSSELight
             Mode2   //CPOL=1, CPHA=0
         }
 
+        public enum CsPolicy
+        {
+            //managed wout user actions
+            CsActiveLow,    
+            CsActiveHigh,
+
+            //manualy managed default value
+            CsDefaultLow,   
+            CsDefaultHigh,
+        }
+
         public class SpiParams
         {
             public SpiMode Mode = SpiMode.Mode0;
-            public FtdiPin ChipSelect = FtdiPin.None;
+            public FtdiPin ChipSelect = FtdiPin.CS;
+            public CsPolicy ChipSelectPolicy = CsPolicy.CsActiveLow;
         }
 
         SpiParams param;
@@ -75,19 +87,52 @@ namespace MPSSELight
             }
 
             //pin init values
-            CS = Bit.One;
+            switch (param.ChipSelectPolicy)
+            {
+                default:
+                case CsPolicy.CsActiveLow:
+                case CsPolicy.CsDefaultHigh:
+                    CS = Bit.One;
+                    break;
+
+                case CsPolicy.CsActiveHigh:
+                case CsPolicy.CsDefaultLow:
+                    CS = Bit.Zero;
+                    break;
+            }
 
             Debug.WriteLine("SPI initial successful : " + mpsse.ClockFrequency);
         }
 
+        private void EnableLine()
+        {
+            if(param.ChipSelectPolicy == CsPolicy.CsActiveHigh)
+                CS = Bit.One;
+            if(param.ChipSelectPolicy == CsPolicy.CsActiveLow)
+                CS = Bit.Zero;
+        }
+
+        private void DisableLine()
+        {
+            if (param.ChipSelectPolicy == CsPolicy.CsActiveHigh)
+                CS = Bit.Zero;
+            if (param.ChipSelectPolicy == CsPolicy.CsActiveLow)
+                CS = Bit.One;
+        }
+
         public void write(byte[] data)
         {
+            EnableLine();
             writeCommand(data);
+            DisableLine();
         }
 
         public byte[] readWrite(byte[] data)
         {
-            return readWriteCommand(data);
+            EnableLine();
+            byte[] result = readWriteCommand(data);
+            DisableLine();
+            return result;
         }
 
         private Bit cs;
@@ -98,7 +143,7 @@ namespace MPSSELight
             {
                 cs = value;
                 FtdiPin pinValue = (cs == Bit.One) ? param.ChipSelect : FtdiPin.None;
-                mpsse.SetDataBitsLowByte(pinValue, FtdiPin.CS | FtdiPin.DO | FtdiPin.SK);
+                mpsse.SetDataBitsLowByte(pinValue, param.ChipSelect | FtdiPin.DO | FtdiPin.SK);
             }
         }
 

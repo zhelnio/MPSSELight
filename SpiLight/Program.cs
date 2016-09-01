@@ -66,42 +66,42 @@ namespace SpiLight
                         mpsseParams.DataWriteEvent = rawOutputToScreen;
                     }
 
-                    MpsseDevice mpsse = new FT2232D(opts.DevSerialNumber, mpsseParams);
+                    using (MpsseDevice mpsse = new FT2232D(opts.DevSerialNumber, mpsseParams))
+                    {
+                        Console.WriteLine("MPSSE init success with clock frequency {0:0.0} Hz", mpsse.ClockFrequency);
 
-                    Console.WriteLine("MPSSE init success with clock frequency {0:0.0} Hz", mpsse.ClockFrequency);
+                        SpiDevice spi = new SpiDevice(mpsse,
+                            new SpiDevice.SpiParams
+                            {
+                                Mode = (opts.SpiMode == 0) ? SpiDevice.SpiMode.Mode0 : SpiDevice.SpiMode.Mode2,
+                                ChipSelect = opts.ChipSelectBit,
+                                ChipSelectPolicy = SpiDevice.CsPolicy.CsActiveLow
+                            });
 
-                    SpiDevice spi = new SpiDevice(mpsse,
-                        new SpiDevice.SpiParams
-                        {
-                            Mode = (opts.SpiMode == 0) ? SpiDevice.SpiMode.Mode0 : SpiDevice.SpiMode.Mode2,
-                            ChipSelect = opts.ChipSelectBit
-                        });
+                        spi.LoopbackEnabled = opts.Loopback;
+                        Console.WriteLine("SPI init success");
 
-                    spi.LoopbackEnabled = opts.Loopback;
-                    Console.WriteLine("SPI init success");
+                        //input data read
+                        byte[] transmitData = new byte[0];
+                        if (opts.BinaryInputFile != null)
+                            transmitData = readBinaryFile(opts.BinaryInputFile);
+                        else if (opts.TextInputFile != null)
+                            transmitData = readTextFile(opts.TextInputFile);
 
-                    //input data read
-                    byte[] transmitData = new byte[0];
-                    if (opts.BinaryInputFile != null)
-                        transmitData = readBinaryFile(opts.BinaryInputFile);
-                    else if (opts.TextInputFile != null)
-                        transmitData = readTextFile(opts.TextInputFile);
+                        if (opts.ScreenInput)
+                            writeToScreen("output:     ", transmitData);
 
-                    if (opts.ScreenInput)
-                        writeToScreen("output:     ",  transmitData);
+                        //data transfer
+                        byte[] result = spi.readWrite(transmitData);
 
-                    //data transfer
-                    spi.CS = Bit.Zero;
-                    byte[] result = spi.readWrite(transmitData);
-                    spi.CS = Bit.One;
-
-                    //output data write
-                    if (opts.ScreenOutput)
-                        writeToScreen("input:      ", result);
-                    if (opts.TextOutputFile != null)
-                        writeToText(opts.TextOutputFile, result);
-                    if (opts.BinaryOutputFile != null)
-                        writeToBinary(opts.BinaryOutputFile, result);
+                        //output data write
+                        if (opts.ScreenOutput)
+                            writeToScreen("input:      ", result);
+                        if (opts.TextOutputFile != null)
+                            writeToText(opts.TextOutputFile, result);
+                        if (opts.BinaryOutputFile != null)
+                            writeToBinary(opts.BinaryOutputFile, result);
+                    }
                 }
             }
             catch(Exception ex)

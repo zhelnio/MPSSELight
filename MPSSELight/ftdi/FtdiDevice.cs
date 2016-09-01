@@ -33,7 +33,7 @@ using System.Diagnostics;
 namespace MPSSELight
 {
 
-    public class FtdiDevice
+    public class FtdiDevice : IDisposable
     {
         protected FTDI ftdi;
 
@@ -115,6 +115,12 @@ namespace MPSSELight
             open(serialNumber);
         }
 
+        public void Dispose()
+        {
+            if (ftdi.IsOpen)
+                ftdi.Close();
+        }
+
         public delegate void DataTransferEvent(byte[] data);
 
         public DataTransferEvent DataReadEvent;
@@ -140,5 +146,6 @@ namespace MPSSELight
                                             BitConverter.ToString(data)));
         }
 
+        
     }
 }

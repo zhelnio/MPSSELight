@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPSSELight", "MPSSELight\MP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiLight", "SpiLight\SpiLight.csproj", "{F6B5D8CA-5A68-4EF1-A8C8-A771D5A6FD91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPSSELightTest", "MPSSELightTest\MPSSELightTest.csproj", "{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F6B5D8CA-5A68-4EF1-A8C8-A771D5A6FD91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6B5D8CA-5A68-4EF1-A8C8-A771D5A6FD91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6B5D8CA-5A68-4EF1-A8C8-A771D5A6FD91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
