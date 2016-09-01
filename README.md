@@ -1,10 +1,8 @@
 # MPSSELight
 Lightweight .net Multi Purpose Synchronous Serial Engine (MPSSE) library for FT2232D, FT232H, FT2232H and FT4232H devices.
-Works over the default FTDI drivers (D2XX plus its .net wrapper FTD2XX_NET).
+Works over the default FTDI drivers (D2XX plus its .net wrapper FTD2XX_NET). Unlike [libMPSSE-.Net-Wrapper](https://github.com/DVDPT/libMPSSE-.Net-Wrapper) it is _not based_ on libMPSSE.
 
-See SPI realisation example is in  [MPSSELight/protocol/SpiDevice.cs](https://github.com/zhelnio/MPSSELight/blob/master/MPSSELight/protocol/SpiDevice.cs)
-
-Spi use example:
+See SPI realisation example can be found in  [MPSSELightTest/SpiTest.cs](/MPSSELightTest/SpiTest.cs):
 ```
 using (MpsseDevice mpsse = new FT2232D("A"))
 {
@@ -18,7 +16,7 @@ using (MpsseDevice mpsse = new FT2232D("A"))
 
 # SpiLight
 
-Library use example also can be found in [SpiLight](https://github.com/zhelnio/MPSSELight/blob/master/SpiLight/Program.cs) project - small command line application that transfer data over SPI:
+[SpiLight](/SpiLight/Program.cs) project is a small command line application that transfer data over SPI. It is based on MPSSELight.
 
 1. Get help
     ```
