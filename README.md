@@ -4,6 +4,18 @@ Works over the default FTDI drivers (D2XX plus its .net wrapper FTD2XX_NET).
 
 See SPI realisation example is in  [MPSSELight/protocol/SpiDevice.cs](https://github.com/zhelnio/MPSSELight/blob/master/MPSSELight/protocol/SpiDevice.cs)
 
+Spi use example:
+```
+using (MpsseDevice mpsse = new FT2232D("A"))
+{
+    SpiDevice spi = new SpiDevice(mpsse);
+
+    byte[] tData = { 0x0D, 0x01, 0x0F };
+    spi.write(tData);
+}
+```
+![Alt text](/readme/da.png?raw=true "Result")
+
 Library use example also can be found in [SpiLight](https://github.com/zhelnio/MPSSELight/blob/master/SpiLight/Program.cs) project - small command line application that transfer data over SPI:
 
 1. Get help
