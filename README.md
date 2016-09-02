@@ -16,7 +16,7 @@ using (MpsseDevice mpsse = new FT2232D("A"))
 
 # SpiLight
 
-[SpiLight](/SpiLight/Program.cs) project is a small command line application that transfer data over SPI. It is based on MPSSELight.
+[SpiLight](/SpiLight/Program.cs) is a small command line application that transfer data over SPI. It is based on MPSSELight.
 
 1. Get help
     ```
