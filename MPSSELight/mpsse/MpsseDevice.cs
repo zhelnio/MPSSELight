@@ -228,7 +228,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read(len);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read(len);
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read((uint)data.Length);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read((uint)data.Length);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
         #endregion
 
@@ -490,7 +490,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read(len);
         }
 
         /// <summary>
@@ -512,7 +512,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read(len);
         }
 
         /// <summary>
@@ -536,7 +536,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -583,7 +583,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read((uint)data.Length);
         }
 
         /// <summary>
@@ -606,7 +606,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read();
+            return read((uint)data.Length);
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -712,7 +712,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -737,7 +737,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -762,7 +762,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -787,7 +787,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
         #endregion
 
@@ -834,7 +834,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -849,7 +849,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
         #endregion
 
@@ -973,7 +973,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -992,7 +992,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -1012,7 +1012,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
 
         /// <summary>
@@ -1033,7 +1033,7 @@ namespace MPSSELight
             while (inputLen == 0)
                 Thread.Sleep(10);
 
-            return read()[0];
+            return read(1)[0];
         }
         #endregion
 

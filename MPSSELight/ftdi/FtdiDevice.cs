@@ -35,33 +35,55 @@ namespace MPSSELight
 
     public class FtdiDevice : IDisposable
     {
+        private static object _lock = new object();
+
         protected FTDI ftdi;
+        const int ioBufferSize = 1024;
 
         private void open(string serialNumber)
         {
-            FTDI.FT_STATUS ftStatus = ftdi.OpenBySerialNumber(serialNumber);
-            if (ftStatus == FTDI.FT_STATUS.FT_OK)
-                return;
+            lock(_lock)
+            {
+                FTDI.FT_STATUS ftStatus = ftdi.OpenBySerialNumber(serialNumber);
+                if (ftStatus == FTDI.FT_STATUS.FT_OK)
+                    return;
 
-            String errMsg = "Failed to open device (error " + ftStatus.ToString() + ")";
-            throw new FtdiException(errMsg);
+                String errMsg = "Failed to open device (error " + ftStatus.ToString() + ")";
+                throw new FtdiException(errMsg);
+            }
         }
 
-        public byte[] read()
+        public byte[] read(uint bytesToRead = 0)
         {
-            uint bytesToRead = inputLen;
+            if(bytesToRead == 0)
+                bytesToRead = inputLen;
 
-            byte[] inputBuffer = new byte[bytesToRead];
-            FTDI.FT_STATUS ftStatus = ftdi.Read(inputBuffer, bytesToRead, ref bytesToRead);
+            byte[] result = new byte[bytesToRead];
+            byte[] buffer = new byte[ioBufferSize];
 
-            if (ftStatus == FTDI.FT_STATUS.FT_OK)
+            uint bytesReaded = 0;
+            while (bytesToRead > 0)
             {
-                DataReadDebugInfo(inputBuffer);
-                return inputBuffer;
+                uint readed = 0;
+                uint toRead = (bytesToRead > ioBufferSize) ? ioBufferSize : bytesToRead;
+
+                lock (_lock)
+                {
+                    FTDI.FT_STATUS ftStatus = ftdi.Read(buffer, toRead, ref readed);
+                    if (ftStatus != FTDI.FT_STATUS.FT_OK)
+                    {
+                        String errMsg = "Failed to Read (error " + ftStatus.ToString() + ")";
+                        throw new FtdiException(errMsg);
+                    }
+                }
+                
+                Array.Copy(buffer, 0, result, bytesReaded, readed);
+                bytesReaded += readed;
+                bytesToRead -= readed;
             }
 
-            String errMsg = "Failed to Read (error " + ftStatus.ToString() + ")";
-            throw new FtdiException(errMsg);
+            DataReadDebugInfo(result);
+            return result;
         }
 
         public void write(byte[] data)
@@ -72,11 +94,14 @@ namespace MPSSELight
             while (outputBuffer.Length > 0)
             {
                 uint bytesWritten = 0;
-                FTDI.FT_STATUS ftStatus = ftdi.Write(outputBuffer, outputBuffer.Length, ref bytesWritten);
-                if (ftStatus != FTDI.FT_STATUS.FT_OK)
+                lock (_lock)
                 {
-                    String errMsg = "fail to Write (error " + ftStatus.ToString() + ")";
-                    throw new FtdiException(errMsg);
+                    FTDI.FT_STATUS ftStatus = ftdi.Write(outputBuffer, outputBuffer.Length, ref bytesWritten);
+                    if (ftStatus != FTDI.FT_STATUS.FT_OK)
+                    {
+                        String errMsg = "fail to Write (error " + ftStatus.ToString() + ")";
+                        throw new FtdiException(errMsg);
+                    }
                 }
 
                 long bytesToWrite = outputBuffer.Length - bytesWritten;
@@ -90,14 +115,17 @@ namespace MPSSELight
         {
             get
             {
-                uint bytesToRead = 0;
-                FTDI.FT_STATUS ftStatus = ftdi.GetRxBytesAvailable(ref bytesToRead);
+                lock (_lock)
+                {
+                    uint bytesToRead = 0;
+                    FTDI.FT_STATUS ftStatus = ftdi.GetRxBytesAvailable(ref bytesToRead);
 
-                if (ftStatus == FTDI.FT_STATUS.FT_OK)
-                    return bytesToRead;
+                    if (ftStatus == FTDI.FT_STATUS.FT_OK)
+                        return bytesToRead;
 
-                String errMsg = "Failed to getRxBytesAvailable in inputLen (error " + ftStatus.ToString() + ")";
-                throw new FtdiException(errMsg);
+                    String errMsg = "Failed to getRxBytesAvailable in inputLen (error " + ftStatus.ToString() + ")";
+                    throw new FtdiException(errMsg);
+                }
             }
         }
 

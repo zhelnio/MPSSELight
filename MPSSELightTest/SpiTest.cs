@@ -44,5 +44,24 @@ namespace MPSSELightTest
             }
         }
 
+        [TestMethod]
+        public void LoopbackBigTest()
+        {
+            Random r = new Random();
+
+            const uint size = 60000;
+            using (MpsseDevice mpsse = new FT2232D("A"))
+            {
+                SpiDevice spi = new SpiDevice(mpsse);
+                mpsse.Loopback = true;
+
+                byte[] tData = new byte[size];
+                r.NextBytes(tData);
+
+                byte[] rData = spi.readWrite(tData);
+
+                Assert.IsTrue(tData.SequenceEqual(rData));
+            }
+        }
     }
 }
