@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MPSSELight")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Lightweight .net Multi Purpose Synchronous Serial Engine (MPSSE) library for FT2232D, FT232H, FT2232H and FT4232H devices. Works over the default FTDI drivers (D2XX plus its .net wrapper FTD2XX_NET). Unlike libMPSSE-.Net-Wrapper it is not based on libMPSSE.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Stanislav Zhelnio")]
 [assembly: AssemblyProduct("MPSSELight")]
 [assembly: AssemblyCopyright("Stanislav Zhelnio ©  2016")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.5.1.0")]
+[assembly: AssemblyFileVersion(version: "0.5.1.0")]
