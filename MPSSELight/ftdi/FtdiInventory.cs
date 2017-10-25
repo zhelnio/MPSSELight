@@ -72,12 +72,16 @@ namespace MPSSELight
             return result;
         }
 
-        public static String DeviceListInfo()
-        {
+        public static FTDI.FT_DEVICE_INFO_NODE[] GetDevices() {
             FTDI ftdi = new FTDI();
             UInt32 deviceCnt = GetNumberOfDevices(ftdi);
             FTDI.FT_DEVICE_INFO_NODE[] deviceList = GetDeviceList(ftdi, deviceCnt);
-            return DeviceListDebugOut(deviceList);
+            return deviceList;
+        }
+
+        public static String DeviceListInfo()
+        {
+            return DeviceListDebugOut(GetDevices());
         }
     }
 }
