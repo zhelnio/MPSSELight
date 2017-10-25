@@ -22,13 +22,10 @@ SOFTWARE.
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPSSELight
 {
+    [Serializable]
     class FtdiException : Exception
     {
         public FtdiException() : base() { }
