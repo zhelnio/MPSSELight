@@ -97,6 +97,15 @@ namespace MPSSELight
             ClkDivisor = param.clockDevisor;
         }
 
+        private byte[] flush() {
+            while (inputLen == 0) {
+                Thread.Sleep(10);
+            }
+            return read();
+        }
+
+
+
         /// <summary>
         /// 3.1 BadCommands
         /// If the device detects a bad command it will send back 2 bytes to the PC.
@@ -113,10 +122,8 @@ namespace MPSSELight
         {
             byte[] cmd = { badCommand };
             write(cmd);
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
-            byte[] responce = read();
+            byte[] responce = flush();
             byte[] searchFor = { 0xFA, badCommand };
             if (0 == responce.StartingIndex(searchFor).Count())
             {
@@ -225,9 +232,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BytesInOnPlusEdgeWithMsbFirst(len));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read(len);
         }
 
@@ -246,9 +250,6 @@ namespace MPSSELight
         public byte[] BytesInOnMinusEdgeWithMsbFirst(uint len)
         {
             write(MpsseCommand.BytesInOnMinusEdgeWithMsbFirst(len));
-
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(len);
         }
@@ -271,8 +272,6 @@ namespace MPSSELight
         public byte BitsInOnPlusEdgeWithMsbFirst(byte len)
         {
             write(MpsseCommand.BitsInOnPlusEdgeWithMsbFirst(len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -295,8 +294,6 @@ namespace MPSSELight
         public byte BitsInOnMinusEdgeWithMsbFirst(byte len)
         {
             write(MpsseCommand.BitsInOnMinusEdgeWithMsbFirst(len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -318,9 +315,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BytesInOnPlusOutOnMinusWithMsbFirst(data));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read((uint)data.Length);
         }
 
@@ -341,9 +335,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BytesInOnMinusOutOnPlusWithMsbFirst(data));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read((uint)data.Length);
         }
 
@@ -362,9 +353,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BitsInOnPlusOutOnMinusWithMsbFirst(data, len));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read(1)[0];
         }
 
@@ -382,9 +370,6 @@ namespace MPSSELight
         public byte BitsInOnMinusOutOnPlusWithMsbFirst(byte data, byte len)
         {
             write(MpsseCommand.BitsInOnMinusOutOnPlusWithMsbFirst(data, len));
-
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -487,9 +472,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BytesInOnPlusEdgeWithLsbFirst(len));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read(len);
         }
 
@@ -508,9 +490,6 @@ namespace MPSSELight
         public byte[] BytesInOnMinusEdgeWithLsbFirst(uint len)
         {
             write(MpsseCommand.BytesInOnMinusEdgeWithLsbFirst(len));
-
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(len);
         }
@@ -533,8 +512,6 @@ namespace MPSSELight
         public byte BitsInOnPlusEdgeWithLsbFirst(byte len)
         {
             write(MpsseCommand.BitsInOnPlusEdgeWithLsbFirst(len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -557,8 +534,6 @@ namespace MPSSELight
         public byte BitsInOnMinusEdgeWithLsbFirst(byte len)
         {
             write(MpsseCommand.BitsInOnMinusEdgeWithLsbFirst(len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -580,9 +555,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BytesInOnPlusOutOnMinusWithLsbFirst(data));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read((uint)data.Length);
         }
 
@@ -603,9 +575,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.BytesInOnMinusOutOnPlusWithLsbFirst(data));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read((uint)data.Length);
         }
 
@@ -623,9 +592,6 @@ namespace MPSSELight
         public byte BitsInOnPlusOutOnMinusWithLsbFirst(byte data, byte len)
         {
             write(MpsseCommand.BitsInOnPlusOutOnMinusWithLsbFirst(data, len));
-
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -645,10 +611,7 @@ namespace MPSSELight
         {
             write(MpsseCommand.BitsInOnMinusOutOnPlusWithLsbFirst(data, len));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
-            return read()[0];
+            return flush()[0];
         }
         #endregion
 
@@ -709,8 +672,6 @@ namespace MPSSELight
         public byte TmsInOutOnPlusEdge(byte data, byte len)
         {
             write(MpsseCommand.TmsInOutOnPlusEdge(data, len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -734,8 +695,6 @@ namespace MPSSELight
         public byte TmsInOnMinusOutOnPlusEdge(byte data, byte len)
         {
             write(MpsseCommand.TmsInOnMinusOutOnPlusEdge(data, len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -759,8 +718,6 @@ namespace MPSSELight
         public byte TmsInOnPlusOutOnMinusEdge(byte data, byte len)
         {
             write(MpsseCommand.TmsInOnPlusOutOnMinusEdge(data, len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -784,8 +741,6 @@ namespace MPSSELight
         public byte TmsInOutOnMinusEdge(byte data, byte len)
         {
             write(MpsseCommand.TmsInOutOnMinusEdge(data, len));
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -831,8 +786,6 @@ namespace MPSSELight
         public byte ReadDataBitsLowByte()
         {
             write(MpsseCommand.ReadDataBitsLowByte());
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -846,8 +799,6 @@ namespace MPSSELight
         public byte ReadDataBitsHighByte()
         {
             write(MpsseCommand.ReadDataBitsHighByte());
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -970,9 +921,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.ReadShortAddress(addrLow));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read(1)[0];
         }
 
@@ -988,9 +936,6 @@ namespace MPSSELight
         public byte ReadExtendedAddress(UInt16 addr)
         {
             write(MpsseCommand.ReadExtendedAddress(addr));
-
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
@@ -1009,9 +954,6 @@ namespace MPSSELight
         {
             write(MpsseCommand.WriteShortAddress(addrLow, data));
 
-            while (inputLen == 0)
-                Thread.Sleep(10);
-
             return read(1)[0];
         }
 
@@ -1029,9 +971,6 @@ namespace MPSSELight
         public byte WriteExtendedAddress(UInt16 addr, byte data)
         {
             write(MpsseCommand.WriteExtendedAddress(addr, data));
-
-            while (inputLen == 0)
-                Thread.Sleep(10);
 
             return read(1)[0];
         }
