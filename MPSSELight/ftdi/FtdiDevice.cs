@@ -43,7 +43,18 @@ namespace MPSSELight
                 if (ftStatus == FTDI.FT_STATUS.FT_OK)
                     return;
 
-                String errMsg = "Failed to open device (error " + ftStatus.ToString() + ")";
+                String errMsg = "Failed to open device using serial " + serialNumber + "(error " + ftStatus.ToString() + ")";
+                throw new FtdiException(errMsg);
+            }
+        }
+
+        private void open(uint locId) {
+            lock (_lock) {
+                FTDI.FT_STATUS ftStatus = ftdi.OpenByLocation(locId);
+                if (ftStatus == FTDI.FT_STATUS.FT_OK)
+                    return;
+
+                String errMsg = "Failed to open device using index " + locId + "(error " + ftStatus.ToString() + ")";
                 throw new FtdiException(errMsg);
             }
         }
@@ -136,6 +147,11 @@ namespace MPSSELight
         {
             ftdi = new FTDI();
             open(serialNumber);
+        }
+
+        public FtdiDevice(uint locId) {
+            ftdi = new FTDI();
+            open(locId);
         }
 
         public void Dispose()
