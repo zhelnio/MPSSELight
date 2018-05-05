@@ -1,4 +1,4 @@
-﻿/* The MIT License (MIT)
+/* The MIT License (MIT)
 
 Copyright(c) 2016 Stanislav Zhelnio
 
@@ -142,6 +142,18 @@ namespace MPSSELight
         {
             if (ftdi.IsOpen)
                 ftdi.Close();
+        }
+
+
+        public string GetComPort() {
+            string rv;
+            FTDI.FT_STATUS ftStatus = ftdi.GetCOMPort(out rv);
+            if (ftStatus != FTDI.FT_STATUS.FT_OK) {
+                String errMsg = "failed to get ComPort (error " + ftStatus.ToString() + ")";
+                throw new FtdiException(errMsg);
+            }
+            return rv;
+
         }
 
         public delegate void DataTransferEvent(byte[] data);
