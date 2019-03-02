@@ -55,8 +55,12 @@ namespace MPSSELight
 
     public class FT4232H : MpsseDeviceExtendedA
     {
-        public FT4232H(String serialNumber) : base(serialNumber) { }
+        public FT4232H(String serialNumber) : base(serialNumber)
+        {
+        }
 
-        public FT4232H(String serialNumber, MpsseParams param) : base(serialNumber, param) { }
+        public FT4232H(String serialNumber, MpsseParams param) : base(serialNumber, param)
+        {
+        }
     }
 }

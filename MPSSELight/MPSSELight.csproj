@@ -66,8 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="devices\FT2232D.cs" />
+    <Compile Include="devices\Ft2232dPin.cs" />
     <Compile Include="devices\FT2232H.cs" />
+    <Compile Include="devices\Ft2232hPin.cs" />
     <Compile Include="devices\FT232H.cs" />
+    <Compile Include="devices\Ft232hPin.cs" />
     <Compile Include="devices\FT4232H.cs" />
     <Compile Include="ftdi\FtdiDevice.cs" />
     <Compile Include="ftdi\FtdiException.cs" />
