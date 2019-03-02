@@ -25,6 +25,7 @@ using FTD2XX_NET;
 using System;
 using System.Linq;
 using System.Threading;
+using MPSSELight.Ftdi;
 
 namespace MPSSELight
 {

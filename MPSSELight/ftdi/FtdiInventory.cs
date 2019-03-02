@@ -21,11 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using FTD2XX_NET;
 using System;
 using System.Linq;
+using FTD2XX_NET;
 
-namespace MPSSELight
+namespace MPSSELight.Ftdi
 {
     public class FtdiInventory
     {

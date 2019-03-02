@@ -23,7 +23,7 @@ SOFTWARE.
 
 using System;
 
-namespace MPSSELight
+namespace MPSSELight.Ftdi
 {
     [Serializable]
     class FtdiException : Exception

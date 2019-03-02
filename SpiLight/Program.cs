@@ -31,6 +31,7 @@ using System.Threading;
 using Fclp;
 using System.Diagnostics;
 using System.IO;
+using MPSSELight.Ftdi;
 
 namespace SpiLight
 {

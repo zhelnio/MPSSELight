@@ -22,6 +22,7 @@ SOFTWARE.
 */
 
 using System.Diagnostics;
+using MPSSELight.Ftdi;
 
 namespace MPSSELight
 {

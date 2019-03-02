@@ -65,27 +65,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="devices\FT2232D.cs" />
-    <Compile Include="devices\Ft2232dPin.cs" />
-    <Compile Include="devices\FT2232H.cs" />
-    <Compile Include="devices\Ft2232hPin.cs" />
-    <Compile Include="devices\FT232H.cs" />
-    <Compile Include="devices\Ft232hPin.cs" />
-    <Compile Include="devices\FT4232H.cs" />
-    <Compile Include="devices\Ft4232hPin.cs" />
-    <Compile Include="ftdi\FtdiDevice.cs" />
-    <Compile Include="ftdi\FtdiException.cs" />
-    <Compile Include="ftdi\FtdiInventory.cs" />
-    <Compile Include="ftdi\FtdiPin.cs" />
-    <Compile Include="mpsse\Bit.cs" />
-    <Compile Include="mpsse\CommandCode.cs" />
-    <Compile Include="mpsse\MpsseCommand.cs" />
-    <Compile Include="mpsse\MpsseDevice.cs" />
-    <Compile Include="mpsse\ArrayExtensions.cs" />
-    <Compile Include="mpsse\MpsseDeviceExtendedA.cs" />
-    <Compile Include="mpsse\MpsseDeviceExtendedB.cs" />
+    <Compile Include="Devices\FT2232D.cs" />
+    <Compile Include="Devices\Ft2232dPin.cs" />
+    <Compile Include="Devices\FT2232H.cs" />
+    <Compile Include="Devices\Ft2232hPin.cs" />
+    <Compile Include="Devices\FT232H.cs" />
+    <Compile Include="Devices\Ft232hPin.cs" />
+    <Compile Include="Devices\FT4232H.cs" />
+    <Compile Include="Devices\Ft4232hPin.cs" />
+    <Compile Include="Ftdi\FtdiDevice.cs" />
+    <Compile Include="Ftdi\FtdiException.cs" />
+    <Compile Include="Ftdi\FtdiInventory.cs" />
+    <Compile Include="Ftdi\FtdiPin.cs" />
+    <Compile Include="Mpsse\Bit.cs" />
+    <Compile Include="Mpsse\CommandCode.cs" />
+    <Compile Include="Mpsse\MpsseCommand.cs" />
+    <Compile Include="Mpsse\MpsseDevice.cs" />
+    <Compile Include="Mpsse\ArrayExtensions.cs" />
+    <Compile Include="Mpsse\MpsseDeviceExtendedA.cs" />
+    <Compile Include="Mpsse\MpsseDeviceExtendedB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="protocol\SpiDevice.cs" />
+    <Compile Include="Protocol\SpiDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
