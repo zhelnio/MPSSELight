@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitMainipulation\AcBusRegister.cs" />
+    <Compile Include="BitMainipulation\Bit.cs" />
+    <Compile Include="BitMainipulation\ByteEx.cs" />
+    <Compile Include="BitMainipulation\ByteFlag.cs" />
+    <Compile Include="BitMainipulation\Direction.cs" />
+    <Compile Include="BitMainipulation\RegisterByte.cs" />
     <Compile Include="Devices\FT2232D.cs" />
     <Compile Include="Devices\Ft2232dPin.cs" />
     <Compile Include="Devices\FT2232H.cs" />
