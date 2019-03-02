@@ -26,9 +26,14 @@ using System;
 namespace MPSSELight.Ftdi
 {
     [Serializable]
-    class FtdiException : Exception
+    internal class FtdiException : Exception
     {
-        public FtdiException() : base() { }
-        public FtdiException(string msg) : base(msg) { }
+        public FtdiException()
+        {
+        }
+
+        public FtdiException(string msg) : base(msg)
+        {
+        }
     }
 }

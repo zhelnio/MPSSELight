@@ -66,6 +66,6 @@ namespace MPSSELight.Ftdi
         GPIOH4 = 1 << 4,
         GPIOH5 = 1 << 5,
         GPIOH6 = 1 << 6,
-        GPIOH7 = 1 << 7,
+        GPIOH7 = 1 << 7
     }
 }

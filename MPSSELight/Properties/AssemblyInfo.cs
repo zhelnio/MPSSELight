@@ -1,12 +1,13 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MPSSELight")]
-[assembly: AssemblyDescription("Lightweight .net Multi Purpose Synchronous Serial Engine (MPSSE) library for FT2232D, FT232H, FT2232H and FT4232H devices. Works over the default FTDI drivers (D2XX plus its .net wrapper FTD2XX_NET). Unlike libMPSSE-.Net-Wrapper it is not based on libMPSSE.")]
+[assembly:
+    AssemblyDescription(
+        "Lightweight .net Multi Purpose Synchronous Serial Engine (MPSSE) library for FT2232D, FT232H, FT2232H and FT4232H devices. Works over the default FTDI drivers (D2XX plus its .net wrapper FTD2XX_NET). Unlike libMPSSE-.Net-Wrapper it is not based on libMPSSE.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stanislav Zhelnio")]
 [assembly: AssemblyProduct("MPSSELight")]
@@ -33,4 +34,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.5.1.0")]
-[assembly: AssemblyFileVersion(version: "0.5.1.0")]
+[assembly: AssemblyFileVersion("0.5.1.0")]

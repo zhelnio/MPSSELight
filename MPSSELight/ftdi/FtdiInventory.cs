@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Linq;
 using FTD2XX_NET;
 
@@ -30,53 +29,55 @@ namespace MPSSELight.Ftdi
     public class FtdiInventory
     {
         // Determine the number of FTDI devices connected to the machine
-        private static UInt32 GetNumberOfDevices(FTDI ftdi)
+        private static uint GetNumberOfDevices(FTDI ftdi)
         {
-            UInt32 ftdiDeviceCount = 0;
-            FTDI.FT_STATUS ftStatus = ftdi.GetNumberOfDevices(ref ftdiDeviceCount);
+            uint ftdiDeviceCount = 0;
+            var ftStatus = ftdi.GetNumberOfDevices(ref ftdiDeviceCount);
             if (ftStatus == FTDI.FT_STATUS.FT_OK)
                 return ftdiDeviceCount;
 
-            String errMsg = "Failed to get number of devices (error " + ftStatus.ToString() + ")";
+            var errMsg = "Failed to get number of devices (error " + ftStatus + ")";
             throw new FtdiException(errMsg);
         }
 
-        private static FTDI.FT_DEVICE_INFO_NODE[] GetDeviceList(FTDI ftdi, UInt32 ftdiDeviceCount)
+        private static FTDI.FT_DEVICE_INFO_NODE[] GetDeviceList(FTDI ftdi, uint ftdiDeviceCount)
         {
-            FTDI.FT_DEVICE_INFO_NODE[] ftdiDeviceList = new FTDI.FT_DEVICE_INFO_NODE[ftdiDeviceCount];
-            FTDI.FT_STATUS ftStatus = ftdi.GetDeviceList(ftdiDeviceList);
+            var ftdiDeviceList = new FTDI.FT_DEVICE_INFO_NODE[ftdiDeviceCount];
+            var ftStatus = ftdi.GetDeviceList(ftdiDeviceList);
             if (ftStatus == FTDI.FT_STATUS.FT_OK)
                 return ftdiDeviceList;
 
-            String errMsg = "Failed to get device list (error " + ftStatus.ToString() + ")";
+            var errMsg = "Failed to get device list (error " + ftStatus + ")";
             throw new FtdiException(errMsg);
         }
 
         private static string DeviceListDebugOut(FTDI.FT_DEVICE_INFO_NODE[] deviceList)
         {
-            string result = "";
-            for (UInt32 i = 0; i < deviceList.Count(); i++)
+            var result = "";
+            for (uint i = 0; i < deviceList.Count(); i++)
             {
-                result += "Device Index:  " + i.ToString() + "\n";
-                result += "Flags:         " + String.Format("{0:x}", deviceList[i].Flags) + "\n";
-                result += "Type:          " + deviceList[i].Type.ToString() + "\n";
-                result += "ID:            " + String.Format("{0:x}", deviceList[i].ID) + "\n";
-                result += "Location ID:   " + String.Format("{0:x}", deviceList[i].LocId) + "\n";
-                result += "Serial Number: " + deviceList[i].SerialNumber.ToString() + "\n";
-                result += "Description:   " + deviceList[i].Description.ToString() + "\n";
-                result += "Handle:        " + deviceList[i].ftHandle.ToString() + "\n\n";
+                result += "Device Index:  " + i + "\n";
+                result += "Flags:         " + string.Format("{0:x}", deviceList[i].Flags) + "\n";
+                result += "Type:          " + deviceList[i].Type + "\n";
+                result += "ID:            " + string.Format("{0:x}", deviceList[i].ID) + "\n";
+                result += "Location ID:   " + string.Format("{0:x}", deviceList[i].LocId) + "\n";
+                result += "Serial Number: " + deviceList[i].SerialNumber + "\n";
+                result += "Description:   " + deviceList[i].Description + "\n";
+                result += "Handle:        " + deviceList[i].ftHandle + "\n\n";
             }
+
             return result;
         }
 
-        public static FTDI.FT_DEVICE_INFO_NODE[] GetDevices() {
-            FTDI ftdi = new FTDI();
-            UInt32 deviceCnt = GetNumberOfDevices(ftdi);
-            FTDI.FT_DEVICE_INFO_NODE[] deviceList = GetDeviceList(ftdi, deviceCnt);
+        public static FTDI.FT_DEVICE_INFO_NODE[] GetDevices()
+        {
+            var ftdi = new FTDI();
+            var deviceCnt = GetNumberOfDevices(ftdi);
+            var deviceList = GetDeviceList(ftdi, deviceCnt);
             return deviceList;
         }
 
-        public static String DeviceListInfo()
+        public static string DeviceListInfo()
         {
             return DeviceListDebugOut(GetDevices());
         }

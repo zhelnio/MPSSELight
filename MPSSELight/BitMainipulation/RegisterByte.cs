@@ -5,6 +5,8 @@ namespace MPSSELight.BitMainipulation
 {
     public class RegisterByte //: IComparable, IComparable<RegisterByte>, IComparable<int>, IConvertible, IEquatable<int>, IFormattable
     {
+        protected int _register;
+
         public RegisterByte()
         {
         }
@@ -14,7 +16,11 @@ namespace MPSSELight.BitMainipulation
             _register = initialValue;
         }
 
-        protected int _register;
+        public byte Flag
+        {
+            get => (byte)_register;
+            set => _register = value;
+        }
 
         public byte Set(int mask)
         {
@@ -61,6 +67,7 @@ namespace MPSSELight.BitMainipulation
                     }
                 }
             }
+
             return (byte)_register;
         }
 
@@ -82,12 +89,6 @@ namespace MPSSELight.BitMainipulation
         public static implicit operator int(RegisterByte registerByte)
         {
             return registerByte._register;
-        }
-
-        public byte Flag
-        {
-            get => (byte)_register;
-            set => _register = value;
         }
 
         public bool IsBitSet(int digit)
