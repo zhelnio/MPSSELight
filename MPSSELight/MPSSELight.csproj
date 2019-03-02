@@ -72,10 +72,13 @@
     <Compile Include="devices\FT232H.cs" />
     <Compile Include="devices\Ft232hPin.cs" />
     <Compile Include="devices\FT4232H.cs" />
+    <Compile Include="devices\Ft4232hPin.cs" />
     <Compile Include="ftdi\FtdiDevice.cs" />
     <Compile Include="ftdi\FtdiException.cs" />
     <Compile Include="ftdi\FtdiInventory.cs" />
     <Compile Include="ftdi\FtdiPin.cs" />
+    <Compile Include="mpsse\Bit.cs" />
+    <Compile Include="mpsse\CommandCode.cs" />
     <Compile Include="mpsse\MpsseCommand.cs" />
     <Compile Include="mpsse\MpsseDevice.cs" />
     <Compile Include="mpsse\ArrayExtensions.cs" />
