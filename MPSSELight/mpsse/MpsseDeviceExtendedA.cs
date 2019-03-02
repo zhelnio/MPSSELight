@@ -115,12 +115,12 @@ namespace MPSSELight.mpsse
         ///     This will give a 3 stage data shift for the purposes of supporting interfaces such
         ///     as I2C which need the data to be valid on both edges of the clk. So it will appear
         ///     as
-        ///     Data setup for Â½ clock period -> pulse clock for Â½ clock period -> Data hold for Â½
+        ///     Data setup for ½ clock period -> pulse clock for ½ clock period -> Data hold for ½
         ///     clock period.
         ///     6.4 Disable 3 Phase Data Clocking
         ///     0x8D
         ///     This will give a 2 stage data shift which is the default state. So it will appear as
-        ///     Data setup for Â½ clock period -> Pulse clock for Â½ clock period
+        ///     Data setup for ½ clock period -> Pulse clock for ½ clock period
         /// </summary>
         public bool ThreePhaseDataClocking
         {

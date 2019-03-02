@@ -110,8 +110,8 @@ namespace MPSSELight.mpsse
                 throw new FtdiException(errMsg);
             }
 
-            sendBadCommand(0xAA); // Synchronize the MPSSE interface by sending bad command ï¼†xAAï¼Š
-            sendBadCommand(0xAB); // Synchronize the MPSSE interface by sending bad command ï¼†xABï¼Š
+            sendBadCommand(0xAA); // Synchronize the MPSSE interface by sending bad command ＆xAA＊
+            sendBadCommand(0xAB); // Synchronize the MPSSE interface by sending bad command ＆xAB＊
 
             ClkDivisor = param.clockDevisor;
         }
