@@ -34,21 +34,36 @@ namespace MPSSELight
     {
         None = 0,
 
-        TCK = 1,
+        //SPI
         SK = 1,
-        TDI = 1 << 1,
+
+        CK = 1,
         DO = 1 << 1,
-        TDO = 1 << 2,
         DI = 1 << 2,
-        TMS = 1 << 3,
         CS = 1 << 3,
 
+        // JTAG
+        TCK = 1,
+
+        TDI = 1 << 1,
+        TDO = 1 << 2,
+        TMS = 1 << 3,
+
+        // I2C
+        SDA = 1 << 1,
+
+        SCK = 1,
+
+        //GPIO LOW
         GPIOL0 = 1 << 4,
+
         GPIOL1 = 1 << 5,
         GPIOL2 = 1 << 6,
         GPIOL3 = 1 << 7,
 
+        //GPIO HIGH
         GPIOH0 = 1,
+
         GPIOH1 = 1 << 1,
         GPIOH2 = 1 << 2,
         GPIOH3 = 1 << 3,
@@ -57,5 +72,4 @@ namespace MPSSELight
         GPIOH6 = 1 << 6,
         GPIOH7 = 1 << 7,
     }
-
 }
