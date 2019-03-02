@@ -21,18 +21,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MPSSELight.Ftdi;
+using System;
 
-namespace MPSSELight
+namespace MPSSELight.mpsse
 {
-    static class MpsseCommand
+    internal static class MpsseCommand
     {
+        #region Set clk divisor
+
+        public static byte[] SetClkDivisor(ushort divisor)
+        {
+            return new[] { (byte)CommandCode.SetClkDivisor, (byte)(divisor & 0xFF), (byte)(divisor >> 8) };
+        }
+
+        #endregion Set clk divisor
+
+        #region FT232H only
+
+        public static byte[] SetIoToOnlyDriveOn0andTristateOn1(FtdiPin low, FtdiPin high)
+        {
+            return transfer(CommandCode.SetIoToOnlyDriveOn0andTristateOn1, low, high);
+        }
+
+        #endregion FT232H only
+
         #region MSB First
 
         public static byte[] BytesOutOnPlusEdgeWithMsbFirst(byte[] data)
@@ -41,6 +54,11 @@ namespace MPSSELight
         }
 
         public static byte[] BytesOutOnMinusEdgeWithMsbFirst(byte[] data)
+        {
+            return transfer(CommandCode.BytesOutOnMinusEdgeWithMsbFirst, data);
+        }
+
+        public static byte[] BytesOutOnMinusEdgeWithMsbFirst(byte data)
         {
             return transfer(CommandCode.BytesOutOnMinusEdgeWithMsbFirst, data);
         }
@@ -94,9 +112,11 @@ namespace MPSSELight
         {
             return transfer(CommandCode.BitsInOnMinusOutOnPlusWithMsbFirst, data, len);
         }
-        #endregion
+
+        #endregion MSB First
 
         #region LSB First
+
         public static byte[] BytesOutOnPlusEdgeWithLsbFirst(byte[] data)
         {
             return transfer(CommandCode.BytesOutOnPlusEdgeWithLsbFirst, data);
@@ -156,9 +176,11 @@ namespace MPSSELight
         {
             return transfer(CommandCode.BitsInOnMinusOutOnPlusWithLsbFirst, data, len);
         }
-        #endregion
+
+        #endregion LSB First
 
         #region TMS Commands
+
         public static byte[] TmsOutOnPlusEdge(byte data, byte len)
         {
             return transfer(CommandCode.TmsOutOnPlusEdge, data, len);
@@ -188,9 +210,11 @@ namespace MPSSELight
         {
             return transfer(CommandCode.TmsInOutOnMinusEdge, data, len);
         }
-        #endregion
+
+        #endregion TMS Commands
 
         #region Set / Read Data Bits High / Low Bytes
+
         public static byte[] SetDataBitsLowByte(FtdiPin value, FtdiPin direction)
         {
             return transfer(CommandCode.SetDataBitsLowByte, value, direction);
@@ -210,9 +234,11 @@ namespace MPSSELight
         {
             return transfer(CommandCode.ReadDataBitsHighByte);
         }
-        #endregion
+
+        #endregion Set / Read Data Bits High / Low Bytes
 
         #region Loopback
+
         public static byte[] ConnectTdiTdoLoopback()
         {
             return transfer(CommandCode.ConnectTdiTdoLoopback);
@@ -222,38 +248,35 @@ namespace MPSSELight
         {
             return transfer(CommandCode.DisconnectTdiTdoLoopback);
         }
-        #endregion
 
-        #region Set clk divisor
-        public static byte[] SetClkDivisor(UInt16 divisor)
-        {
-            return new byte[] { (byte)CommandCode.SetClkDivisor, (byte)(divisor & 0xFF), (byte)(divisor >> 8) };
-        }
-        #endregion
+        #endregion Loopback
 
         #region Instructions for CPU mode
+
         public static byte[] ReadShortAddress(byte addrLow)
         {
-            return new byte[] { (byte)CommandCode.ReadShortAddress, addrLow };
+            return new[] { (byte)CommandCode.ReadShortAddress, addrLow };
         }
 
-        public static byte[] ReadExtendedAddress(UInt16 addr)
+        public static byte[] ReadExtendedAddress(ushort addr)
         {
-            return new byte[] { (byte)CommandCode.ReadExtendedAddress, (byte)(addr >> 8), (byte)(addr & 0xFF) };
+            return new[] { (byte)CommandCode.ReadExtendedAddress, (byte)(addr >> 8), (byte)(addr & 0xFF) };
         }
 
         public static byte[] WriteShortAddress(byte addrLow, byte data)
         {
-            return new byte[] { (byte)CommandCode.WriteShortAddress, addrLow, data };
+            return new[] { (byte)CommandCode.WriteShortAddress, addrLow, data };
         }
 
-        public static byte[] WriteExtendedAddress(UInt16 addr, byte data)
+        public static byte[] WriteExtendedAddress(ushort addr, byte data)
         {
-            return new byte[] { (byte)CommandCode.WriteExtendedAddress, (byte)(addr >> 8), (byte)(addr & 0xFF), data };
+            return new[] { (byte)CommandCode.WriteExtendedAddress, (byte)(addr >> 8), (byte)(addr & 0xFF), data };
         }
-        #endregion
+
+        #endregion Instructions for CPU mode
 
         #region Instructions for use in both MPSSE and MCU Host Emulation Modes
+
         public static byte[] SendImmediate()
         {
             return transfer(CommandCode.SendImmediate);
@@ -268,7 +291,8 @@ namespace MPSSELight
         {
             return transfer(CommandCode.WaitOnIoLow);
         }
-        #endregion
+
+        #endregion Instructions for use in both MPSSE and MCU Host Emulation Modes
 
         #region FT232H, FT2232H & FT4232H only
 
@@ -331,24 +355,19 @@ namespace MPSSELight
         {
             return transfer(CommandCode.ClockForNx8BitsWithNoDataTransferOrUntilGPIOL1isLow, len);
         }
-        #endregion
 
-        #region FT232H only
-        public static byte[] SetIoToOnlyDriveOn0andTristateOn1(FtdiPin low, FtdiPin high)
-        {
-            return transfer(CommandCode.SetIoToOnlyDriveOn0andTristateOn1, low, high);
-        }
-        #endregion
+        #endregion FT232H, FT2232H & FT4232H only
 
         #region common private functions
+
         private static byte[] transfer(CommandCode cmd)
         {
-            return new byte[] { (byte)cmd };
+            return new[] { (byte)cmd };
         }
 
         private static byte[] transfer(CommandCode cmd, FtdiPin value, FtdiPin direction)
         {
-            return new byte[] { (byte)cmd, (byte)value, (byte)direction };
+            return new[] { (byte)cmd, (byte)value, (byte)direction };
         }
 
         private static byte[] transfer(CommandCode cmd, byte data, byte len)
@@ -356,7 +375,7 @@ namespace MPSSELight
             if (len == 0 || len > 8)
                 throw new ArgumentException("Bit data len should be from 1 to 8");
 
-            return new byte[] { (byte)cmd, (byte)(len - 1) , data };
+            return new[] { (byte)cmd, (byte)(len - 1), data };
         }
 
         private static byte[] transfer(CommandCode cmd, byte len)
@@ -364,17 +383,17 @@ namespace MPSSELight
             if (len == 0 || len > 8)
                 throw new ArgumentException("Bit data len should be from 1 to 8");
 
-            return new byte[] { (byte)cmd, (byte)(len - 1) };
+            return new[] { (byte)cmd, (byte)(len - 1) };
         }
 
         private static byte[] transfer(CommandCode cmd, byte[] data)
         {
-            uint len = (uint)data.Length;
+            var len = (uint)data.Length;
 
             if (len == 0 || len > 0x10000)
                 throw new ArgumentException("Data len should be from 1 to 65536");
 
-            byte[] result = new byte[len + 3];
+            var result = new byte[len + 3];
 
             len--;
             result[0] = (byte)cmd;
@@ -390,8 +409,9 @@ namespace MPSSELight
                 throw new ArgumentException("Data len should be from 1 to 65536");
 
             len--;
-            return new byte[] { (byte)cmd, (byte)(len & 0xFF), (byte)(len >> 8) };
+            return new[] { (byte)cmd, (byte)(len & 0xFF), (byte)(len >> 8) };
         }
-        #endregion
+
+        #endregion common private functions
     }
 }

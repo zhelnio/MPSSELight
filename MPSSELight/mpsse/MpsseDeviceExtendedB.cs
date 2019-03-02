@@ -21,40 +21,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MPSSELight.Ftdi;
 
-namespace MPSSELight
+namespace MPSSELight.mpsse
 {
-    ///  All comments in this file are from 
-    ///
-    ///  Application Note AN_108
-    ///  Command Processor for MPSSE and MCU Host Bus Emulation Modes
-    ///  Document Reference No.: FT_000109
-    ///  Version 1.5
-    ///  Issue Date: 2011-09-09
+    /// All comments in this file are from 
+    /// 
+    /// Application Note AN_108
+    /// Command Processor for MPSSE and MCU Host Bus Emulation Modes
+    /// Document Reference No.: FT_000109
+    /// Version 1.5
+    /// Issue Date: 2011-09-09
     ///  
-    ///  It provides details of the op-codes used to control the Multi Purpose Synchronous Serial Engine (MPSSE) 
-    ///  mode of the FT2232D, FT232H, FT2232H and FT4232H devices.
-
+    /// It provides details of the op-codes used to control the Multi Purpose Synchronous Serial Engine (MPSSE) 
+    /// mode of the FT2232D, FT232H, FT2232H and FT4232H devices.
     public abstract class MpsseDeviceExtendedB : MpsseDeviceExtendedA
     {
-        public MpsseDeviceExtendedB(String serialNumber) : base(serialNumber) { }
+        public MpsseDeviceExtendedB(string serialNumber) : base(serialNumber)
+        {
+        }
 
-        public MpsseDeviceExtendedB(String serialNumber, MpsseParams param) : base(serialNumber, param) { }
+        public MpsseDeviceExtendedB(string serialNumber, MpsseParams param) : base(serialNumber, param)
+        {
+        }
 
         /// <summary>
-        /// 7.1 Set I/O to only drive on a ‘0’ and tristate on a ‘1’
-        /// 0x9E
-        /// LowByteEnablesForOnlyDrive0
-        /// HighByteEnablesForOnlyDrive0
-        /// This will make the I/Os only drive when the data is ‘0’ and tristate on the data 
-        /// being ‘1’ when the appropriate bit is set. Use this op-code when configuring the 
-        /// MPSSE for I2C use.
+        ///     7.1 Set I/O to only drive on a ‘0’ and tristate on a ‘1’
+        ///     0x9E
+        ///     LowByteEnablesForOnlyDrive0
+        ///     HighByteEnablesForOnlyDrive0
+        ///     This will make the I/Os only drive when the data is ‘0’ and tristate on the data
+        ///     being ‘1’ when the appropriate bit is set. Use this op-code when configuring the
+        ///     MPSSE for I2C use.
         /// </summary>
         /// <param name="low"></param>
         /// <param name="high"></param>

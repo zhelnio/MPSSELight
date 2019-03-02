@@ -1,6 +1,6 @@
 using System;
 
-namespace MPSSELight
+namespace MPSSELight.Devices
 {
     [Flags]
     public enum Ft4232hPin
@@ -23,6 +23,6 @@ namespace MPSSELight
         BDBUS4 = 1 << 4,
         BDBUS5 = 1 << 5,
         BDBUS6 = 1 << 6,
-        BDBUS7 = 1 << 7,
+        BDBUS7 = 1 << 7
     }
 }

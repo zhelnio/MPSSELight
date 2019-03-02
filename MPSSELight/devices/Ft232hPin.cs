@@ -1,6 +1,6 @@
 using System;
 
-namespace MPSSELight
+namespace MPSSELight.Devices
 {
     [Flags]
     public enum Ft232hPin
@@ -23,6 +23,6 @@ namespace MPSSELight
         ACBUS4 = 1 << 4,
         ACBUS5 = 1 << 5,
         ACBUS6 = 1 << 6,
-        ACBUS7 = 1 << 7,
+        ACBUS7 = 1 << 7
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using MPSSELight.Ftdi;
+﻿using MPSSELight.Ftdi;
+using System;
 
 namespace MPSSELight.BitMainipulation
 {
@@ -19,7 +19,7 @@ namespace MPSSELight.BitMainipulation
         {
             if (place < 0 || place > 7)
                 throw new ArgumentOutOfRangeException("place", "Index must be in the range of 0-7.");
-            Flag = (byte) (Flag | (1 << place));
+            Flag = (byte)(Flag | (1 << place));
             return this;
         }
 
@@ -27,7 +27,7 @@ namespace MPSSELight.BitMainipulation
         {
             if (place < 0 || place > 7)
                 throw new ArgumentOutOfRangeException("place", "Index must be in the range of 0-7.");
-            Flag = (byte) (Flag & ~(1 << place));
+            Flag = (byte)(Flag & ~(1 << place));
             return this;
         }
 
@@ -35,7 +35,7 @@ namespace MPSSELight.BitMainipulation
         {
             if (place < 0 || place > 7)
                 throw new ArgumentOutOfRangeException("place", "Index must be in the range of 0-7.");
-            Flag = (byte) (Flag ^ (1 << place));
+            Flag = (byte)(Flag ^ (1 << place));
             return this;
         }
 
@@ -47,7 +47,7 @@ namespace MPSSELight.BitMainipulation
         public static implicit operator FtdiPin(ByteFlag byteFlag)
         {
             var flag = byteFlag.Flag;
-            return (FtdiPin) flag;
+            return (FtdiPin)flag;
         }
     }
 }

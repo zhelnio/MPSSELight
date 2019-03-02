@@ -21,21 +21,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MPSSELight.mpsse;
 
-namespace MPSSELight
+namespace MPSSELight.Devices
 {
     public class FT2232D : MpsseDevice
     {
-        public FT2232D(String serialNumber) : base(serialNumber)
+        public FT2232D(string serialNumber) : base(serialNumber)
         {
         }
 
-        public FT2232D(String serialNumber, MpsseParams param) : base(serialNumber, param)
+        public FT2232D(string serialNumber, MpsseParams param) : base(serialNumber, param)
         {
         }
     }

@@ -22,6 +22,7 @@ SOFTWARE.
 */
 
 using FTD2XX_NET;
+using MPSSELight.mpsse;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -21,47 +21,44 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System.Diagnostics;
 using MPSSELight.Ftdi;
+using MPSSELight.mpsse;
+using System.Diagnostics;
 
-namespace MPSSELight
+namespace MPSSELight.Protocol
 {
     public class SpiDevice
     {
-        private MpsseDevice mpsse;
-
-        public enum SpiMode
-        {
-            Mode0,  //CPOL=0, CPHA=0
-            Mode2   //CPOL=1, CPHA=0
-        }
-
         public enum CsPolicy
         {
             //managed wout user actions
-            CsActiveLow,    
+            CsActiveLow,
+
             CsActiveHigh,
 
             //manualy managed default value
-            CsDefaultLow,   
-            CsDefaultHigh,
+            CsDefaultLow,
+
+            CsDefaultHigh
         }
 
-        public class SpiParams
+        public enum SpiMode
         {
-            public SpiMode Mode = SpiMode.Mode0;
-            public FtdiPin ChipSelect = FtdiPin.CS;
-            public CsPolicy ChipSelectPolicy = CsPolicy.CsActiveLow;
+            Mode0, //CPOL=0, CPHA=0
+            Mode2 //CPOL=1, CPHA=0
         }
 
-        SpiParams param;
+        private Bit cs;
+        private readonly MpsseDevice mpsse;
 
-        private delegate void WriteCommandDelegate(byte[] data);
-        private delegate byte[] ReadWriteCommandDelegate(byte[] data);
-        WriteCommandDelegate writeCommand;
-        ReadWriteCommandDelegate readWriteCommand;
+        private readonly SpiParams param;
+        private readonly ReadWriteCommandDelegate readWriteCommand;
 
-        public SpiDevice(MpsseDevice mpsse) : this(mpsse, new SpiParams()) { }
+        private readonly WriteCommandDelegate writeCommand;
+
+        public SpiDevice(MpsseDevice mpsse) : this(mpsse, new SpiParams())
+        {
+        }
 
         public SpiDevice(MpsseDevice mpsse, SpiParams param)
         {
@@ -75,6 +72,7 @@ namespace MPSSELight
                     writeCommand = mpsse.BytesOutOnMinusEdgeWithMsbFirst;
                     readWriteCommand = mpsse.BytesInOnPlusOutOnMinusWithMsbFirst;
                     break;
+
                 case SpiMode.Mode2:
                     writeCommand = mpsse.BytesOutOnPlusEdgeWithMsbFirst;
                     readWriteCommand = mpsse.BytesInOnMinusOutOnPlusWithMsbFirst;
@@ -99,11 +97,28 @@ namespace MPSSELight
             Debug.WriteLine("SPI initial successful : " + mpsse.ClockFrequency);
         }
 
+        public Bit CS
+        {
+            get => cs;
+            set
+            {
+                cs = value;
+                var pinValue = cs == Bit.One ? param.ChipSelect : FtdiPin.None;
+                mpsse.SetDataBitsLowByte(pinValue, param.ChipSelect | FtdiPin.DO | FtdiPin.SK);
+            }
+        }
+
+        public bool LoopbackEnabled
+        {
+            get => mpsse.Loopback;
+            set => mpsse.Loopback = value;
+        }
+
         private void EnableLine()
         {
-            if(param.ChipSelectPolicy == CsPolicy.CsActiveHigh)
+            if (param.ChipSelectPolicy == CsPolicy.CsActiveHigh)
                 CS = Bit.One;
-            if(param.ChipSelectPolicy == CsPolicy.CsActiveLow)
+            if (param.ChipSelectPolicy == CsPolicy.CsActiveLow)
                 CS = Bit.Zero;
         }
 
@@ -125,27 +140,20 @@ namespace MPSSELight
         public byte[] readWrite(byte[] data)
         {
             EnableLine();
-            byte[] result = readWriteCommand(data);
+            var result = readWriteCommand(data);
             DisableLine();
             return result;
         }
 
-        private Bit cs;
-        public Bit CS
+        public class SpiParams
         {
-            get { return cs; }
-            set
-            {
-                cs = value;
-                FtdiPin pinValue = (cs == Bit.One) ? param.ChipSelect : FtdiPin.None;
-                mpsse.SetDataBitsLowByte(pinValue, param.ChipSelect | FtdiPin.DO | FtdiPin.SK);
-            }
+            public FtdiPin ChipSelect = FtdiPin.CS;
+            public CsPolicy ChipSelectPolicy = CsPolicy.CsActiveLow;
+            public SpiMode Mode = SpiMode.Mode0;
         }
 
-        public bool LoopbackEnabled
-        {
-            get { return mpsse.Loopback; }
-            set { mpsse.Loopback = value; }
-        }
+        private delegate void WriteCommandDelegate(byte[] data);
+
+        private delegate byte[] ReadWriteCommandDelegate(byte[] data);
     }
 }

@@ -21,33 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using FTD2XX_NET;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace MPSSELight
+namespace MPSSELight.mpsse
 {
-    static class ArrayExtensions
+    internal static class ArrayExtensions
     {
-
         public static IEnumerable<int> StartingIndex(this byte[] x, byte[] y)
         {
-            IEnumerable<int> index = Enumerable.Range(0, x.Length - y.Length + 1);
-            for (int i = 0; i < y.Length; i++)
-            {
-                index = index.Where(n => x[n + i] == y[i]).ToArray();
-            }
+            var index = Enumerable.Range(0, x.Length - y.Length + 1);
+            for (var i = 0; i < y.Length; i++) index = index.Where(n => x[n + i] == y[i]).ToArray();
             return index;
         }
     }
-
-    
-    
-
-    
 }

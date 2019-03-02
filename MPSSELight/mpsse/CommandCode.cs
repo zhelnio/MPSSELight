@@ -1,9 +1,10 @@
-namespace MPSSELight
+namespace MPSSELight.mpsse
 {
-    enum CommandCode
+    public enum CommandCode
     {
         //data transfer
         BytesOutOnPlusEdgeWithMsbFirst = 0x10,
+
         BytesOutOnMinusEdgeWithMsbFirst = 0x11,
         BitsOutOnPlusEdgeWithMsbFirst = 0x12,
         BitsOutOnMinusEdgeWithMsbFirst = 0x13,
@@ -31,6 +32,7 @@ namespace MPSSELight
 
         //TMS Commands
         TmsOutOnPlusEdge = 0x4A,
+
         TmsOutOnMinusEdge = 0x4B,
         TmsInOutOnPlusEdge = 0x6A,
         TmsInOnMinusOutOnPlusEdge = 0x6E,
@@ -39,12 +41,14 @@ namespace MPSSELight
 
         //Set / Read Data Bits High / Low Bytes
         SetDataBitsLowByte = 0x80,
+
         SetDataBitsHighByte = 0x82,
         ReadDataBitsLowByte = 0x81,
         ReadDataBitsHighByte = 0x83,
 
         //Loopback Commands
         ConnectTdiTdoLoopback = 0x84,
+
         DisconnectTdiTdoLoopback = 0x85,
 
         //Set clk divisor
@@ -52,17 +56,20 @@ namespace MPSSELight
 
         //Instructions for CPU mode
         ReadShortAddress = 0x90,
+
         ReadExtendedAddress = 0x91,
         WriteShortAddress = 0x92,
         WriteExtendedAddress = 0x93,
 
         //Instructions for use in both MPSSE and MCU Host Emulation Modes
         SendImmediate = 0x87,
+
         WaitOnIoHigh = 0x88,
         WaitOnIoLow = 0x89,
 
         //FT232H, FT2232H & FT4232H ONLY
         DisableClkDivideBy5 = 0x8A,
+
         EnableClkDivideBy5 = 0x8B,
         Enable3PhaseDataClocking = 0x8C,
         Disable3PhaseDataClocking = 0x8D,
@@ -76,6 +83,6 @@ namespace MPSSELight
         ClockForNx8BitsWithNoDataTransferOrUntilGPIOL1isLow = 0x9D,
 
         //FT232H ONLY
-        SetIoToOnlyDriveOn0andTristateOn1 = 0x9E,
+        SetIoToOnlyDriveOn0andTristateOn1 = 0x9E
     }
 }

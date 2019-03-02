@@ -85,6 +85,8 @@
     <Compile Include="Mpsse\MpsseDeviceExtendedA.cs" />
     <Compile Include="Mpsse\MpsseDeviceExtendedB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\Gpio.cs" />
+    <Compile Include="Protocol\I2cBus.cs" />
     <Compile Include="Protocol\SpiDevice.cs" />
   </ItemGroup>
   <ItemGroup>
