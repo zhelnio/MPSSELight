@@ -21,23 +21,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using FTD2XX_NET;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace MPSSELight
 {
-
     public class FtdiDevice : IDisposable
     {
         private static object _lock = new object();
 
         protected FTDI ftdi;
-        const int ioBufferSize = 1024;
+        private const int ioBufferSize = 1024;
 
         private void open(string serialNumber)
         {
-            lock(_lock)
+            lock (_lock)
             {
                 FTDI.FT_STATUS ftStatus = ftdi.OpenBySerialNumber(serialNumber);
                 if (ftStatus == FTDI.FT_STATUS.FT_OK)
@@ -48,8 +49,10 @@ namespace MPSSELight
             }
         }
 
-        private void open(uint locId) {
-            lock (_lock) {
+        private void open(uint locId)
+        {
+            lock (_lock)
+            {
                 FTDI.FT_STATUS ftStatus = ftdi.OpenByLocation(locId);
                 if (ftStatus == FTDI.FT_STATUS.FT_OK)
                     return;
@@ -61,7 +64,7 @@ namespace MPSSELight
 
         public byte[] read(uint bytesToRead = 0)
         {
-            if(bytesToRead == 0)
+            if (bytesToRead == 0)
                 bytesToRead = inputLen;
 
             byte[] result = new byte[bytesToRead];
@@ -82,19 +85,27 @@ namespace MPSSELight
                         throw new FtdiException(errMsg);
                     }
                 }
-                
+
                 Array.Copy(buffer, 0, result, bytesReaded, readed);
                 bytesReaded += readed;
                 bytesToRead -= readed;
             }
 
-            DataReadDebugInfo(result);
+            //DataReadDebugInfo(result);
             return result;
+        }
+
+        public void write(CommandCode command, params byte[] dataBytes)
+        {
+            var buffer = new List<byte>();
+            buffer.Add((byte)command);
+            buffer.AddRange(dataBytes);
+            write(buffer.ToArray());
         }
 
         public void write(byte[] data)
         {
-            DataWriteDebugInfo(data);
+            //DataWriteDebugInfo(data);
 
             byte[] outputBuffer = (byte[])data.Clone();
             while (outputBuffer.Length > 0)
@@ -149,7 +160,8 @@ namespace MPSSELight
             open(serialNumber);
         }
 
-        public FtdiDevice(uint locId) {
+        public FtdiDevice(uint locId)
+        {
             ftdi = new FTDI();
             open(locId);
         }
@@ -160,16 +172,16 @@ namespace MPSSELight
                 ftdi.Close();
         }
 
-
-        public string GetComPort() {
+        public string GetComPort()
+        {
             string rv;
             FTDI.FT_STATUS ftStatus = ftdi.GetCOMPort(out rv);
-            if (ftStatus != FTDI.FT_STATUS.FT_OK) {
+            if (ftStatus != FTDI.FT_STATUS.FT_OK)
+            {
                 String errMsg = "failed to get ComPort (error " + ftStatus.ToString() + ")";
                 throw new FtdiException(errMsg);
             }
             return rv;
-
         }
 
         public delegate void DataTransferEvent(byte[] data);
@@ -182,9 +194,7 @@ namespace MPSSELight
             if (DataReadEvent != null)
                 DataReadEvent(data);
 
-            Debug.WriteLine(String.Format("{0:HH:mm:ss.FFFF} ftdiRead: {1}",
-                                            DateTime.Now,
-                                            BitConverter.ToString(data)));
+            Debug.WriteLine($"{DateTime.Now:HH:mm:ss.FFFF} ftdiRead: {BitConverter.ToString(data)}");
         }
 
         protected void DataWriteDebugInfo(byte[] data)
@@ -192,11 +202,13 @@ namespace MPSSELight
             if (DataWriteEvent != null)
                 DataWriteEvent(data);
 
-            Debug.WriteLine(String.Format("{0:HH:mm:ss.FFFF} ftdiWrite: {1}",
-                                            DateTime.Now,
-                                            BitConverter.ToString(data)));
-        }
+            StackTrace stackTrace = new StackTrace();
 
-        
+            var callstack = string.Join("->", (stackTrace.GetFrames() ?? throw new InvalidOperationException()).Select(x => x.GetMethod().Name).ToArray());
+
+            Debug.WriteLine($"{DateTime.Now:HH:mm:ss.FFFF} stack: {callstack}");
+
+            Debug.WriteLine($"{DateTime.Now:HH:mm:ss.FFFF} ftdiWrite: {BitConverter.ToString(data)}");
+        }
     }
 }
