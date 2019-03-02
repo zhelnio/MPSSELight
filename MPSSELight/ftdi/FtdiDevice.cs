@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace MPSSELight
+namespace MPSSELight.Ftdi
 {
     public class FtdiDevice : IDisposable
     {
