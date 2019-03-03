@@ -11,28 +11,44 @@ namespace MPSSELight.Protocol
         {
             _mpsse = mpsse;
 
-            //            _mpsse.AdBusDirection.Set((byte)0x18);
-            //            _mpsse.AdBusDirection.Reset((byte)0x18);
             _mpsse.AdBusDirection.Mask(false, false, true, true, true, null, null, null);
-
-            _mpsse.AdBusValue.Set((byte) 0x0);
+            _mpsse.AdBusValue.Set((byte)0x0);
             _mpsse.Enqueue(MpsseCommand.SetDataBitsLowByte(_mpsse.AdBusValue, _mpsse.AdBusDirection));
             _mpsse.ExecuteBuffer();
         }
 
-        public AcBusRegister AdBusDirection => _mpsse.AdBusDirection;
+        private AcBusRegister AdBusDirection => _mpsse.AdBusDirection;
 
-        public AcBusRegister AdBusValue => _mpsse.AdBusValue;
+        private AcBusRegister AdBusValue => _mpsse.AdBusValue;
 
         public bool In0 { get; set; }
         public bool In1 { get; set; }
 
         public bool Out0 { get; set; }
 
-        //public Ft232hPin Out0Direction
         public bool Out1 { get; set; }
 
         public bool Out2 { get; set; }
+
+        public byte GetHighGpio()
+        {
+            _mpsse.Enqueue(MpsseCommand.ReadDataBitsHighByte());
+            _mpsse.ExecuteBuffer();
+
+            // Result
+            var result = _mpsse.read(1);
+            return result[0];
+        }
+
+        public byte GetLowGpio()
+        {
+            _mpsse.Enqueue(MpsseCommand.ReadDataBitsLowByte());
+            _mpsse.ExecuteBuffer();
+            // Result
+            var result = _mpsse.read(1);
+
+            return result[0];
+        }
 
         public void Multiplex()
         {
@@ -57,38 +73,16 @@ namespace MPSSELight.Protocol
                 AdBusValue.UnsetBit(5);
         }
 
-        public byte GetLowGpio()
-        {
-            _mpsse.Enqueue(MpsseCommand.ReadDataBitsLowByte());
-            _mpsse.ExecuteBuffer();
-            // Result
-            var result = _mpsse.read(1);
-
-            return result[0];
-        }
-
-        public void SetLowGpio()
-        {
-            //Console.WriteLine($"Dir: {_mpsse.AdBusDirection.ToBinaryString()} Value: {_mpsse.AdBusValue.ToBinaryString()} Out0 {Out0} Out1 {Out1}");
-
-            _mpsse.Enqueue(MpsseCommand.SetDataBitsLowByte(_mpsse.AdBusValue, _mpsse.AdBusDirection));
-            _mpsse.ExecuteBuffer();
-        }
-
         public void SetHighGpio()
         {
             _mpsse.Enqueue(MpsseCommand.SetDataBitsHighByte(_mpsse.AdBusValue, _mpsse.AdBusDirection));
             _mpsse.ExecuteBuffer();
         }
 
-        public byte GetHighGpio()
+        public void SetLowGpio()
         {
-            _mpsse.Enqueue(MpsseCommand.ReadDataBitsHighByte());
+            _mpsse.Enqueue(MpsseCommand.SetDataBitsLowByte(_mpsse.AdBusValue, _mpsse.AdBusDirection));
             _mpsse.ExecuteBuffer();
-            // Result
-            var result = _mpsse.read(1);
-
-            return result[0];
         }
     }
 }

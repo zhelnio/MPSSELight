@@ -133,7 +133,7 @@ namespace MPSSELight.Ftdi
                 bytesToRead -= readed;
             }
 
-            //DataReadDebugInfo(result);
+            DataReadDebugInfo(result);
             return result;
         }
 

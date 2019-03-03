@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPSSELight", "MPSSELight\MPSSELight.csproj", "{867ECEA8-90E9-4403-B46A-5B4675F01CC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiLight", "SpiLight\SpiLight.csproj", "{F6B5D8CA-5A68-4EF1-A8C8-A771D5A6FD91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPSSELightTest", "MPSSELightTest\MPSSELightTest.csproj", "{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMPSSE", "..\..\I2C-Repository\ConsoleMPSSE\ConsoleMPSSE.csproj", "{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,15 @@ Global
 		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A4A3B90-FC34-495D-8143-3F634C1CF8E1}
 	EndGlobalSection
 EndGlobal
