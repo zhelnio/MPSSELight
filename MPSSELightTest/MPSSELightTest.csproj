@@ -53,6 +53,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FtdiHelper.cs" />
+    <Compile Include="I2cTest.cs" />
     <Compile Include="SpiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

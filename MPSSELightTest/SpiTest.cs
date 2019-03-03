@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MPSSELight;
 using MPSSELight.Devices;
-using MPSSELight.Ftdi;
 using MPSSELight.mpsse;
 using MPSSELight.Protocol;
 using System;
@@ -15,7 +14,7 @@ namespace MPSSELightTest
         [TestMethod]
         public void OpenCloseTest()
         {
-            using (MpsseDevice mpsse = new FT2232D(GetFirstSerial()))
+            using (MpsseDevice mpsse = new FT2232D(FtdiHelper.GetFirstSerial()))
             {
                 SpiDevice spi = new SpiDevice(mpsse);
             }
@@ -24,7 +23,7 @@ namespace MPSSELightTest
         [TestMethod]
         public void LoopbackTest()
         {
-            using (MpsseDevice mpsse = new FT2232D(GetFirstSerial()))
+            using (MpsseDevice mpsse = new FT2232D(FtdiHelper.GetFirstSerial()))
             {
                 SpiDevice spi = new SpiDevice(mpsse);
                 mpsse.Loopback = true;
@@ -39,7 +38,7 @@ namespace MPSSELightTest
         [TestMethod]
         public void TransmitTest()
         {
-            using (MpsseDevice mpsse = new FT2232D(GetFirstSerial()))
+            using (MpsseDevice mpsse = new FT2232D(FtdiHelper.GetFirstSerial()))
             {
                 SpiDevice spi = new SpiDevice(mpsse);
 
@@ -54,7 +53,7 @@ namespace MPSSELightTest
             Random r = new Random();
 
             const uint size = 60000;
-            using (MpsseDevice mpsse = new FT2232D(GetFirstSerial()))
+            using (MpsseDevice mpsse = new FT2232D(FtdiHelper.GetFirstSerial()))
             {
                 SpiDevice spi = new SpiDevice(mpsse);
                 mpsse.Loopback = true;
@@ -66,15 +65,6 @@ namespace MPSSELightTest
 
                 Assert.IsTrue(tData.SequenceEqual(rData));
             }
-        }
-
-        public string GetFirstSerial()
-        {
-            var ftDeviceInfo = FtdiInventory.GetDevices();
-            Assert.IsNotNull(ftDeviceInfo, "No Devices found");
-            var firstDevice = ftDeviceInfo?.FirstOrDefault()?.SerialNumber;
-            Assert.IsNotNull(firstDevice, "No Valid Serial Number");
-            return firstDevice;
         }
     }
 }
