@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiLight", "SpiLight\SpiLig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPSSELightTest", "MPSSELightTest\MPSSELightTest.csproj", "{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMPSSE", "..\..\I2C-Repository\ConsoleMPSSE\ConsoleMPSSE.csproj", "{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "I2cScanner", "I2cScanner\I2cScanner.csproj", "{9623951A-186F-4F52-ACDF-934F91C7CEFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7E9009-3D82-4DBE-BA2C-5CF802894EFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D79B563-B67C-47BC-BD51-BC25FFA8A89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9623951A-186F-4F52-ACDF-934F91C7CEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9623951A-186F-4F52-ACDF-934F91C7CEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9623951A-186F-4F52-ACDF-934F91C7CEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9623951A-186F-4F52-ACDF-934F91C7CEFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
